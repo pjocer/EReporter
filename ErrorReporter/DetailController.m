@@ -66,8 +66,15 @@
     [params addEntriesFromDictionary:self.param];
     page==0?[self.source removeAllObjects]:nil;
     [[AFHTTPSessionManager manager] POST:LISTS parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self.source addObjectsFromArray:[NSMutableArray mj_objectArrayWithKeyValuesArray:responseObject]];
-        NSLog(@"%@",responseObject);
+        NSArray *array = [NSMutableArray mj_objectArrayWithKeyValuesArray:responseObject];
+        NSMutableArray *tempArray = [NSMutableArray array];
+        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:obj];
+            dic[@"created_time"] = [NSDate stringFromTimeInterval:[dic[@"created_time"] doubleValue] formate:DEFAULT_TIME_FORMATE3];
+            dic[@"system_time"] = [NSDate stringFromTimeInterval:[dic[@"system_time"] doubleValue] formate:DEFAULT_TIME_FORMATE3];
+            [tempArray addObject:dic];
+        }];
+        [self.source addObjectsFromArray:tempArray];
         [self.tableView reloadData];
         [self hiddenMJRefresh];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -93,6 +100,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     for (NSString *key in dic.allKeys) {
         [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.enabled = [key isEqualToString:@"app_msg"]||[key isEqualToString:@"deviceid"];
             NSString *orgin = [NSString stringWithFormat:@"%@",dic[key]];
             textField.text = orgin;
             UILabel *left = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 44)];
@@ -116,12 +124,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DetailCellIdentifier"];
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.source objectAtIndex:indexPath.row]];
-    dic[@"created_time"] = [NSDate stringFromTimeInterval:[dic[@"created_time"] doubleValue] formate:DEFAULT_TIME_FORMATE4];
-    dic[@"system_time"] = [NSDate stringFromTimeInterval:[dic[@"system_time"] doubleValue] formate:DEFAULT_TIME_FORMATE4];
-    self.source[indexPath.row] = dic;
-    NSLog(@"%@",dic[@"created_time"]);
-    [cell configureCell:dic];
+    [cell configureCell:[self.source objectAtIndex:indexPath.row]];
     return cell;
 }
 

@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *deviceID;
 @property (weak, nonatomic) IBOutlet UILabel *platform;
 @property (weak, nonatomic) IBOutlet UILabel *createdTime;
-
+@property (strong, nonatomic) NSDictionary *dic;
 @end
 
 @implementation DetailCell
@@ -31,11 +31,12 @@
 }
 
 - (void)configureCell:(NSDictionary *)dic {
-    self.deviceID.text = [@"DeviceID:" stringByAppendingString:dic[@"deviceid"]];
-    self.deviceModel.text = [NSString stringWithFormat:@"机型:%@",dic[@"model"]];
-    self.version.text = [NSString stringWithFormat:@"版本:%@",dic[@"clientversion"]];
-    self.platform.text = dic[@"platform"];
-    self.createdTime.text = dic[@"created_time"];
+    _dic = dic;
+    self.deviceID.text = [@"DeviceID:" stringByAppendingString:_dic[@"deviceid"]];
+    self.deviceModel.text = [NSString stringWithFormat:@"机型:%@",_dic[@"model"]];
+    self.version.text = [NSString stringWithFormat:@"版本:%@",_dic[@"clientversion"]];
+    self.platform.text = _dic[@"platform"];
+    self.createdTime.text = _dic[@"created_time"];
 }
 
 @end
