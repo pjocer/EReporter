@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  OptionCell.h
 //  ErrorReporter
 //
 //  Created by Jocer on 2017/3/21.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface OptionCell : UITableViewCell
 
+- (void)setData:(NSDictionary *)dic;
 
 @end
-

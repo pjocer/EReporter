@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DetailController.h
 //  ErrorReporter
 //
 //  Created by Jocer on 2017/3/21.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface DetailController : UIViewController
 
+- (instancetype)initWithParams:(NSDictionary *)param;
 
 @end
-

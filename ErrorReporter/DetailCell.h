@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DetailCell.h
 //  ErrorReporter
 //
 //  Created by Jocer on 2017/3/21.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-
-
+@interface DetailCell : UITableViewCell
+- (void)configureCell:(NSDictionary *)dic;
 @end
-
