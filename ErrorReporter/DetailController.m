@@ -12,6 +12,7 @@
 #import "DetailCell.h"
 #import <MJRefresh.h>
 #import <MJExtension.h>
+#import "NSDate+Extension.h"
 
 #define LISTS @"http://172.20.40.133:9091/code/lists"
 @interface DetailController () <UITableViewDelegate, UITableViewDataSource>
@@ -37,11 +38,12 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.rowHeight = 70;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 120;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.left.right.bottom.equalTo(self.view);
     }];
     [self.tableView registerNib:[UINib nibWithNibName:@"DetailCell" bundle:nil] forCellReuseIdentifier:@"DetailCellIdentifier"];
     static NSInteger page = 0;
@@ -53,7 +55,7 @@
         page++;
         [self requestData:page];
     }];
-    self.title = [NSString stringWithFormat:@"%@",self.param[@"code"]];
+    self.title = [NSString stringWithFormat:@"%@:%@",self.param[@"app_tag"],self.param[@"code"]];
     [self.tableView.mj_header beginRefreshing];
 }
 
@@ -85,21 +87,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *dic = [self.source objectAtIndex:indexPath.row];
+    NSMutableDictionary *dic = [self.source objectAtIndex:indexPath.row];
     NSString *title = [NSString stringWithFormat:@"※※※Device※※※\n%@",dic[@"deviceid"]];
     NSString *message = [NSString stringWithFormat:@"※※※app_msg※※※\n%@",dic[@"app_msg"]];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     for (NSString *key in dic.allKeys) {
-        if ([key isEqualToString:@"app_msg"] || [key isEqualToString:@"deviceid"]) {
-            continue;
-        }
         [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            NSString *orgin = [NSString stringWithFormat:@"%@:%@",key,dic[key]];
-            NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] initWithString:orgin];
-            [attrText addAttributes:@{ NSForegroundColorAttributeName : [UIColor brownColor] } range:NSMakeRange(0, key.length)];
-            textField.attributedText = attrText;
-            textField.adjustsFontSizeToFitWidth = YES;
-            textField.enabled = NO;
+            NSString *orgin = [NSString stringWithFormat:@"%@",dic[key]];
+            textField.text = orgin;
+            UILabel *left = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 44)];
+            left.font = [UIFont systemFontOfSize:14];
+            left.text = [NSString stringWithFormat:@"%@:",key];
+            left.textColor = [UIColor brownColor];
+            textField.leftViewMode = UITextFieldViewModeAlways;
+            textField.leftView = left;
         }];
     }
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -115,7 +116,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DetailCellIdentifier"];
-    NSDictionary *dic = [self.source objectAtIndex:indexPath.row];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self.source objectAtIndex:indexPath.row]];
+    dic[@"created_time"] = [NSDate stringFromTimeInterval:[dic[@"created_time"] doubleValue] formate:DEFAULT_TIME_FORMATE4];
+    dic[@"system_time"] = [NSDate stringFromTimeInterval:[dic[@"system_time"] doubleValue] formate:DEFAULT_TIME_FORMATE4];
+    self.source[indexPath.row] = dic;
+    NSLog(@"%@",dic[@"created_time"]);
     [cell configureCell:dic];
     return cell;
 }

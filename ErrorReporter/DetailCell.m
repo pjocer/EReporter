@@ -8,6 +8,15 @@
 
 #import "DetailCell.h"
 
+@interface DetailCell ()
+@property (weak, nonatomic) IBOutlet UILabel *deviceModel;
+@property (weak, nonatomic) IBOutlet UILabel *version;
+@property (weak, nonatomic) IBOutlet UILabel *deviceID;
+@property (weak, nonatomic) IBOutlet UILabel *platform;
+@property (weak, nonatomic) IBOutlet UILabel *createdTime;
+
+@end
+
 @implementation DetailCell
 
 - (void)awakeFromNib {
@@ -22,7 +31,11 @@
 }
 
 - (void)configureCell:(NSDictionary *)dic {
-    NSLog(@"%@",dic);
+    self.deviceID.text = [@"DeviceID:" stringByAppendingString:dic[@"deviceid"]];
+    self.deviceModel.text = [NSString stringWithFormat:@"机型:%@",dic[@"model"]];
+    self.version.text = [NSString stringWithFormat:@"版本:%@",dic[@"clientversion"]];
+    self.platform.text = dic[@"platform"];
+    self.createdTime.text = dic[@"created_time"];
 }
 
 @end

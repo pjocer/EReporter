@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xwy-rN-dnC">
-                                <rect key="frame" x="0.0" y="64" width="375" height="105"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="105.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Platform" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j97-Wa-vz6">
                                         <rect key="frame" x="15" y="15" width="58.5" height="15"/>
@@ -84,16 +84,29 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t13-5y-YHC">
+                                        <rect key="frame" x="0.0" y="105" width="375" height="0.5"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="Zgn-Tb-a11"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="105" id="2FQ-XF-xIt"/>
+                                    <constraint firstAttribute="height" constant="105.5" id="2FQ-XF-xIt"/>
+                                    <constraint firstItem="t13-5y-YHC" firstAttribute="leading" secondItem="Xwy-rN-dnC" secondAttribute="leading" id="61e-iA-26n"/>
+                                    <constraint firstAttribute="bottom" secondItem="t13-5y-YHC" secondAttribute="bottom" id="Bin-AH-brA"/>
                                     <constraint firstItem="Fe7-Jz-kIU" firstAttribute="leading" secondItem="Xwy-rN-dnC" secondAttribute="leading" constant="15" id="CsB-aY-sg6"/>
                                     <constraint firstAttribute="trailing" secondItem="x9O-Ef-hkj" secondAttribute="trailing" constant="15" id="D7J-Vm-a90"/>
                                     <constraint firstItem="OYr-0R-Ln8" firstAttribute="leading" secondItem="Xwy-rN-dnC" secondAttribute="leading" constant="15" id="I7Z-YM-7GN"/>
                                     <constraint firstItem="Fe7-Jz-kIU" firstAttribute="top" secondItem="OYr-0R-Ln8" secondAttribute="bottom" constant="15" id="O9l-5H-1QP"/>
                                     <constraint firstItem="OYr-0R-Ln8" firstAttribute="top" secondItem="j97-Wa-vz6" secondAttribute="bottom" constant="15" id="OFT-iB-adZ"/>
                                     <constraint firstItem="j97-Wa-vz6" firstAttribute="top" secondItem="Xwy-rN-dnC" secondAttribute="top" constant="15" id="Q2X-m7-82B"/>
+                                    <constraint firstAttribute="trailing" secondItem="t13-5y-YHC" secondAttribute="trailing" id="U9u-Xc-W0B"/>
                                     <constraint firstAttribute="trailing" secondItem="0Cx-h1-h3w" secondAttribute="trailing" constant="15" id="W3w-DY-4Ou"/>
                                     <constraint firstItem="R8w-Bk-2Ja" firstAttribute="top" secondItem="x9O-Ef-hkj" secondAttribute="bottom" constant="15" id="Zzx-Qm-RgA"/>
                                     <constraint firstItem="x9O-Ef-hkj" firstAttribute="top" secondItem="0Cx-h1-h3w" secondAttribute="bottom" constant="15" id="fbz-Nh-oSE"/>
@@ -102,16 +115,22 @@
                                     <constraint firstAttribute="trailing" secondItem="R8w-Bk-2Ja" secondAttribute="trailing" constant="15" id="yrF-cs-9IY"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSl-KY-8pM">
-                                <rect key="frame" x="0.0" y="169" width="375" height="498"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSl-KY-8pM">
+                                <rect key="frame" x="0.0" y="169.5" width="375" height="497.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="estimatedRowHeight">
+                                        <integer key="value" value="70"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="hidden" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="KRc-iu-wlM"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="45u-El-vNO"/>
                                 </connections>
                             </tableView>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="3Xl-5m-MYK">
-                                <rect key="frame" x="0.0" y="169" width="375" height="498"/>
+                                <rect key="frame" x="0.0" y="169.5" width="375" height="497.5"/>
                                 <date key="date" timeIntervalSinceReferenceDate="511765406.38303202">
                                     <!--2017-03-21 05:03:26 +0000-->
                                 </date>
@@ -119,15 +138,21 @@
                                     <!--1970-01-01 11:00:00 +0000-->
                                 </date>
                                 <locale key="locale" localeIdentifier="zh-Hans"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="hidden" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </datePicker>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ccS-ND-GCO">
-                                <rect key="frame" x="0.0" y="169" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="169.5" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Gke-hd-g5x"/>
                                 </constraints>
                                 <items>
                                     <barButtonItem title="Item" id="NBn-eU-8ek"/>
                                 </items>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="hidden" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

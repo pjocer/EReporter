@@ -13,25 +13,26 @@
 @property (weak, nonatomic) IBOutlet UILabel *right;
 @property (weak, nonatomic) IBOutlet UILabel *levelLabel;
 @property (nonatomic, strong) NSDictionary *data;
+@property (weak, nonatomic) IBOutlet UILabel *tagLabel;
 @end
 
 @implementation OptionCell
 
 - (void)setData:(NSDictionary *)dic {
     _data = dic;
-    self.left.text = [_data objectForKey:@"code"]?:@"";
+    self.left.text = [NSString stringWithFormat:@"code:%@",[_data objectForKey:@"code"]?:@""];
     self.right.text = [_data objectForKey:@"counts"]?:@"";
-    self.right.text = [NSString stringWithFormat:@"%@",self.right.text];
+    self.right.text = [NSString stringWithFormat:@"%@次",self.right.text];
     NSInteger level = [[_data objectForKey:@"level"]?:@"0" integerValue];
     self.levelLabel.hidden = level==0;
     if (level==1) {
-        _levelLabel.backgroundColor = [UIColor greenColor];
+        _levelLabel.text = @"正常";
     }
     if (level==2) {
-        _levelLabel.backgroundColor = [UIColor yellowColor];
+        _levelLabel.text = @"⚠️";
     }
     if (level==3) {
-        _levelLabel.backgroundColor = [UIColor redColor];
+        _levelLabel.text = @"❌";
     }
 }
 

@@ -37,13 +37,12 @@
     self.source = [NSMutableArray array];
     self.params = [NSMutableDictionary dictionary];
     [self.tableView registerNib:[UINib nibWithNibName:@"OptionCell" bundle:nil] forCellReuseIdentifier:@"OptionCellIdentifier"];
-    self.tableView.hidden = YES;
-    self.datePicker.hidden = YES;
-    self.toolBar.hidden = YES;
-    self.datePicker.minimumDate = [NSDate dateWithTimeIntervalSince1970:[NSDate timeIntervalFromString:@"2015-01-01" Formate:DEFAULT_TIME_FORMATE]];
+    
+    self.datePicker.minimumDate = [NSDate dateWithTimeIntervalSince1970:[NSDate timeIntervalFromString:@"2015-01-01 00:00:00" Formate:DEFAULT_TIME_FORMATE4]];
     self.datePicker.maximumDate = [NSDate date];
-    [[_datePicker rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UIDatePicker *datePicker) {
-        NSString *time = [datePicker.date stringFromFormate:DEFAULT_TIME_FORMATE];
+    self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [[_datePicker rac_signalForControlEvents:UIControlEventAllEvents] subscribeNext:^(UIDatePicker *datePicker) {
+        NSString *time = [datePicker.date stringFromFormate:DEFAULT_TIME_FORMATE4];
         if (self.type == 2) {
             [self.startButton setTitle:time forState:UIControlStateNormal];
         }
@@ -83,10 +82,10 @@
 - (void)save {
     [self showTableView:YES showDatePicker:NO];
     if (self.type==2) {
-        int interval = [NSDate timeIntervalFromString:self.startButton.titleLabel.text Formate:DEFAULT_TIME_FORMATE];
+        int interval = [NSDate timeIntervalFromString:self.startButton.titleLabel.text Formate:DEFAULT_TIME_FORMATE4];
         
         if (interval==0) {
-            [self.startButton setTitle:[[NSDate date] stringFromFormate:DEFAULT_TIME_FORMATE] forState:UIControlStateNormal];
+            [self.startButton setTitle:[[NSDate date] stringFromFormate:DEFAULT_TIME_FORMATE4] forState:UIControlStateNormal];
             interval = [[NSDate date] timeIntervalSince1970];
         }
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.params];
@@ -94,9 +93,9 @@
         self.params = dic;
     }
     if (self.type==3) {
-        int interval = [NSDate timeIntervalFromString:self.endButton.titleLabel.text Formate:DEFAULT_TIME_FORMATE];
+        int interval = [NSDate timeIntervalFromString:self.endButton.titleLabel.text Formate:DEFAULT_TIME_FORMATE4];
         if (interval==0) {
-            [self.endButton setTitle:[[NSDate date] stringFromFormate:DEFAULT_TIME_FORMATE] forState:UIControlStateNormal];
+            [self.endButton setTitle:[[NSDate date] stringFromFormate:DEFAULT_TIME_FORMATE4] forState:UIControlStateNormal];
             interval = [[NSDate date] timeIntervalSince1970];
         }
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.params];
@@ -132,9 +131,16 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OptionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionCellIdentifier"];
-    [cell setData:self.source[indexPath.row]];
-    return cell;
+    if (self.type==1) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = self.source[indexPath.row][@"code"];
+        return cell;
+    } else {
+        OptionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionCellIdentifier"];
+        [cell setData:self.source[indexPath.row]];
+        return cell;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -151,6 +157,7 @@
         NSDictionary *dic = [self.source objectAtIndex:indexPath.row];
         NSMutableDictionary *dicx = [NSMutableDictionary dictionaryWithDictionary:self.params];
         [dicx setObject:dic[@"code"] forKey:@"code"];
+        [dicx setObject:dic[@"app_tag"]?:@"Tag" forKey:@"app_tag"];
         DetailController *detail = [[DetailController alloc] initWithParams:dicx];
         [self.navigationController pushViewController:detail animated:YES];
     }
