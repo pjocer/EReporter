@@ -25,6 +25,7 @@
     self.right.text = [NSString stringWithFormat:@"%@次",self.right.text];
     NSInteger level = [[_data objectForKey:@"level"]?:@"0" integerValue];
     self.levelLabel.hidden = level==0;
+    self.tagLabel.text = dic[@"tag"];
     if (level==1) {
         _levelLabel.text = @"正常";
     }

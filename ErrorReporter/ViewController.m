@@ -154,7 +154,7 @@
         NSDictionary *dic = [self.source objectAtIndex:indexPath.row];
         NSMutableDictionary *dicx = [NSMutableDictionary dictionaryWithDictionary:self.params];
         [dicx setObject:dic[@"code"] forKey:@"code"];
-        [dicx setObject:dic[@"app_tag"]?:@"Tag" forKey:@"app_tag"];
+        [dicx setObject:dic[@"tag"]?:@"Tag" forKey:@"app_tag"];
         DetailController *detail = [[DetailController alloc] initWithParams:dicx];
         [self.navigationController pushViewController:detail animated:YES];
     }

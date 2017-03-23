@@ -75,6 +75,7 @@
             [tempArray addObject:dic];
         }];
         [self.source addObjectsFromArray:tempArray];
+        self.title = [NSString stringWithFormat:@"%@:%@",self.source[0][@"app_tag"],self.param[@"code"]];
         [self.tableView reloadData];
         [self hiddenMJRefresh];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
